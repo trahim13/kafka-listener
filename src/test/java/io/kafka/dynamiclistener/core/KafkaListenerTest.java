@@ -1,4 +1,4 @@
-package io.kafka.core;
+package io.kafka.dynamiclistener.core;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

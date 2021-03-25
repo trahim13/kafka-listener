@@ -1,42 +1,19 @@
+server:
+  port: 8082
+
 spring:
   datasource:
-    platform: h2
-    jdbc-url: jdbc:h2:tcp://localhost:9092/mem:testdb;MVCC=TRUE
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-  jpa:
-    database-platform: H2
-    open-in-view: false
-    show-sql: true
-    hibernate:
-      ddl-auto: create-drop
-    properties:
-      hibernate.format_sql: true
+   driver-class-name: org.postgresql.Driver
+   url: jdbc:postgresql://${POSTGRES_HOSTNAME:localhost}:${POSTGRES_PORT:15432}/${POSTGRES_DB:postgres}
+   username: ${POSTGRES_USER:postgres}
+   password: ${POSTGRES_PASSWORD:postgres}
   kafka:
-    bootstrap-servers: localhost:9092
-    listener:
-      ack-mode: RECORD
-      concurrency: 1
-    producer:
-      key-serializer: org.apache.kafka.common.serialization.StringSerializer
-      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
-      compression-type: lz4
-      acks: -1
-      properties:
-        schema.registry.url: http://localhost:8081
-        enable.idempotence: true
-    consumer:
-      group-id: kafka
-      enable-auto-commit: false
-      auto-offset-reset: earliest
-      max-poll-records: 100
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer
-      properties:
-        schema.registry.url: http://localhost:8081
-        isolation.level: read_committed
+    bootstrap-servers: ${KAFKA_ADVERTISED_LISTENERS:http://localhost:9094}
+
+
 
 logging:
   level:
     io.kafka: DEBUG
+
+

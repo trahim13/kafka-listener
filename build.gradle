@@ -23,42 +23,17 @@ repositories {
     maven { url "http://packages.confluent.io/maven/" }
 }
 
-test {
-    maxParallelForks = Runtime.runtime.availableProcessors()
-    useJUnitPlatform()
-}
-
 dependencies {
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-starter-webflux"
     compile "org.springframework.boot:spring-boot-starter-data-jpa"
     compile 'org.springframework.kafka:spring-kafka'
-    compile "com.h2database:h2"
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.18'
+    annotationProcessor 'org.projectlombok:lombok:1.18.18'
+
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.2.19'
+
 
     compile group: 'com.jfrog.bintray', name: 'com.jfrog.bintray.gradle.plugin', version: '1.8.4'
 
-    compile "io.confluent:kafka-avro-serializer:${kafkaAvroSerializer}"
-
-    testImplementation "org.springframework.kafka:spring-kafka-test"
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
-        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-    }
-}
-
-bootJar {
-    baseName = "${artifactName}"
-    version =  "${artifactVersion}"
-}
-
-uploadArchives {
-    repositories {
-        mavenDeployer {
-            repository(url: repoReleaseUrl) {
-                authentication(userName: "${repoUserName}", password: "${repoApiKey}")
-            }
-            pom.groupId = project.group
-            pom.artifactId = project.name
-            pom.version = project.version
-        }
-    }
 }
